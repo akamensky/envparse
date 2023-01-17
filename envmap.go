@@ -28,10 +28,6 @@ func newEnvMap(envList []string) envMap {
 	return env
 }
 
-func (env envMap) Size() int {
-	return len(env)
-}
-
 func (env envMap) Exists(key string) bool {
 	if _, ok := env[key]; ok {
 		return true
