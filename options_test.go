@@ -3,7 +3,7 @@ package envparse
 import "testing"
 
 func TestSetPrefix(t *testing.T) {
-	originalPrefix := DefaultPrefix
+	originalPrefix := defaultPrefix
 
 	testData := map[string]string{
 		"ABC":     "ABC",
@@ -14,16 +14,16 @@ func TestSetPrefix(t *testing.T) {
 
 	for input, expectedResult := range testData {
 		SetPrefix(input)
-		if DefaultPrefix != expectedResult {
-			t.Errorf("input '%s', expected '%s', but got '%s'", input, expectedResult, DefaultPrefix)
+		if defaultPrefix != expectedResult {
+			t.Errorf("input '%s', expected '%s', but got '%s'", input, expectedResult, defaultPrefix)
 		}
 	}
 
-	DefaultPrefix = originalPrefix
+	defaultPrefix = originalPrefix
 }
 
 func TestSetMaxDepth(t *testing.T) {
-	originalMaxDepth := DefaultMaxDepth
+	originalMaxDepth := defaultMaxDepth
 
 	testData := map[int]int{
 		1: 1,
@@ -32,10 +32,10 @@ func TestSetMaxDepth(t *testing.T) {
 
 	for input, expectedResult := range testData {
 		SetMaxDepth(input)
-		if DefaultMaxDepth != expectedResult {
-			t.Errorf("input '%d', expected '%d', but got '%d'", input, expectedResult, DefaultMaxDepth)
+		if defaultMaxDepth != expectedResult {
+			t.Errorf("input '%d', expected '%d', but got '%d'", input, expectedResult, defaultMaxDepth)
 		}
 	}
 
-	DefaultMaxDepth = originalMaxDepth
+	defaultMaxDepth = originalMaxDepth
 }

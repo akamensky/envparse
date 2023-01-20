@@ -2,19 +2,27 @@ package envparse
 
 import "fmt"
 
-type errorList struct {
+type ErrorList struct {
 	errors []error
 }
 
-func newErrorList() *errorList {
-	return &errorList{errors: make([]error, 0)}
+func FullError(err error) error {
+	if errorList, ok := err.(*ErrorList); ok {
+		return fmt.Errorf(errorList.FullError())
+	} else {
+		return err
+	}
 }
 
-func (e *errorList) Error() string {
+func newErrorList() *ErrorList {
+	return &ErrorList{errors: make([]error, 0)}
+}
+
+func (e *ErrorList) Error() string {
 	return fmt.Sprintf("%d errors happened during parsing environment variables", len(e.errors))
 }
 
-func (e *errorList) FullError() string {
+func (e *ErrorList) FullError() string {
 	msg := e.Error()
 	if len(e.errors) > 0 {
 		msg = fmt.Sprintf("%s:", msg)
@@ -25,7 +33,7 @@ func (e *errorList) FullError() string {
 	return msg
 }
 
-func (e *errorList) IsEmpty() bool {
+func (e *ErrorList) IsEmpty() bool {
 	if e.errors == nil || len(e.errors) == 0 {
 		return true
 	}
@@ -33,6 +41,6 @@ func (e *errorList) IsEmpty() bool {
 	return false
 }
 
-func (e *errorList) Append(err error) {
+func (e *ErrorList) Append(err error) {
 	e.errors = append(e.errors, err)
 }

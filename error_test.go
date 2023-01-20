@@ -53,3 +53,18 @@ func TestErrorList_Append(t *testing.T) {
 		t.Errorf("expected IsEmpty == false, but got IsEmpty == true")
 	}
 }
+
+func TestFullError(t *testing.T) {
+	errorList := &ErrorList{errors: []error{
+		fmt.Errorf("hello"),
+		fmt.Errorf("world"),
+	}}
+	if FullError(errorList).Error() != errorList.FullError() {
+		t.Errorf("expected '%v', but got '%v'", errorList.FullError(), FullError(errorList).Error())
+	}
+
+	err := fmt.Errorf("hello world")
+	if FullError(err) != err {
+		t.Errorf("expected '%v', but got '%v'", err, FullError(err))
+	}
+}

@@ -6,9 +6,9 @@ import (
 )
 
 func SetPrefix(s string) {
-	DefaultPrefix = strings.ToUpper(regexp.MustCompile(`[^A-Za-z0-9]`).ReplaceAllString(s, ""))
+	defaultPrefix = strings.ToUpper(regexp.MustCompile(`[^A-Za-z0-9]`).ReplaceAllString(s, ""))
 }
 
 func SetMaxDepth(i int) {
-	DefaultMaxDepth = i
+	defaultMaxDepth = i
 }

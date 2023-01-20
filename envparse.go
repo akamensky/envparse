@@ -8,13 +8,13 @@ import (
 )
 
 var (
-	DefaultPrefix   = "APP"
-	DefaultMaxDepth = 100
+	defaultPrefix   = "APP"
+	defaultMaxDepth = 100
 )
 
 // Parse scans through environment variables using mapping provided in interface
 func Parse(ptr interface{}, envs []string) error {
-	env := newEnvMap(DefaultPrefix, envs)
+	env := newEnvMap(defaultPrefix, envs)
 
 	// Verify that ptr is a pointer to a struct
 	interfaceValue := reflect.ValueOf(ptr)
@@ -25,7 +25,7 @@ func Parse(ptr interface{}, envs []string) error {
 	structValue := interfaceValue.Elem()
 
 	errorList := newErrorList()
-	structValue.Set(parseStruct(structValue.Type(), env.GetPrefix(DefaultPrefix), 0, errorList))
+	structValue.Set(parseStruct(structValue.Type(), env.GetPrefix(defaultPrefix), 0, errorList))
 	if !errorList.IsEmpty() {
 		return errorList
 	}
@@ -33,11 +33,11 @@ func Parse(ptr interface{}, envs []string) error {
 	return nil
 }
 
-func parseStruct(structType reflect.Type, env envMap, depth int, errorList *errorList) reflect.Value {
+func parseStruct(structType reflect.Type, env envMap, depth int, errorList *ErrorList) reflect.Value {
 	result := reflect.New(structType).Elem()
 
 	depth++
-	if depth >= DefaultMaxDepth {
+	if depth >= defaultMaxDepth {
 		errorList.Append(fmt.Errorf("too many levels of embedded structs, currently at depth '%d'", depth))
 		return result
 	}
@@ -98,11 +98,11 @@ func parseStruct(structType reflect.Type, env envMap, depth int, errorList *erro
 	return result
 }
 
-func parseSlice(sliceType reflect.Type, env envMap, depth int, errorList *errorList) reflect.Value {
+func parseSlice(sliceType reflect.Type, env envMap, depth int, errorList *ErrorList) reflect.Value {
 	result := reflect.MakeSlice(sliceType, 0, 0)
 
 	depth++
-	if depth >= DefaultMaxDepth {
+	if depth >= defaultMaxDepth {
 		errorList.Append(fmt.Errorf("too many levels of embedded structs, currently at depth '%d'", depth))
 		return result
 	}
@@ -145,7 +145,7 @@ func parseSlice(sliceType reflect.Type, env envMap, depth int, errorList *errorL
 	return result
 }
 
-func parseInt(val string, errorList *errorList) reflect.Value {
+func parseInt(val string, errorList *ErrorList) reflect.Value {
 	if val == "" {
 		val = "0"
 	}
@@ -156,7 +156,7 @@ func parseInt(val string, errorList *errorList) reflect.Value {
 	return reflect.ValueOf(int(i))
 }
 
-func parseInt8(val string, errorList *errorList) reflect.Value {
+func parseInt8(val string, errorList *ErrorList) reflect.Value {
 	if val == "" {
 		val = "0"
 	}
@@ -167,7 +167,7 @@ func parseInt8(val string, errorList *errorList) reflect.Value {
 	return reflect.ValueOf(int8(i))
 }
 
-func parseInt16(val string, errorList *errorList) reflect.Value {
+func parseInt16(val string, errorList *ErrorList) reflect.Value {
 	if val == "" {
 		val = "0"
 	}
@@ -178,7 +178,7 @@ func parseInt16(val string, errorList *errorList) reflect.Value {
 	return reflect.ValueOf(int16(i))
 }
 
-func parseInt32(val string, errorList *errorList) reflect.Value {
+func parseInt32(val string, errorList *ErrorList) reflect.Value {
 	if val == "" {
 		val = "0"
 	}
@@ -189,7 +189,7 @@ func parseInt32(val string, errorList *errorList) reflect.Value {
 	return reflect.ValueOf(int32(i))
 }
 
-func parseInt64(val string, errorList *errorList) reflect.Value {
+func parseInt64(val string, errorList *ErrorList) reflect.Value {
 	if val == "" {
 		val = "0"
 	}
@@ -200,7 +200,7 @@ func parseInt64(val string, errorList *errorList) reflect.Value {
 	return reflect.ValueOf(i)
 }
 
-func parseUint(val string, errorList *errorList) reflect.Value {
+func parseUint(val string, errorList *ErrorList) reflect.Value {
 	if val == "" {
 		val = "0"
 	}
@@ -211,7 +211,7 @@ func parseUint(val string, errorList *errorList) reflect.Value {
 	return reflect.ValueOf(uint(i))
 }
 
-func parseUint8(val string, errorList *errorList) reflect.Value {
+func parseUint8(val string, errorList *ErrorList) reflect.Value {
 	if val == "" {
 		val = "0"
 	}
@@ -222,7 +222,7 @@ func parseUint8(val string, errorList *errorList) reflect.Value {
 	return reflect.ValueOf(uint8(i))
 }
 
-func parseUint16(val string, errorList *errorList) reflect.Value {
+func parseUint16(val string, errorList *ErrorList) reflect.Value {
 	if val == "" {
 		val = "0"
 	}
@@ -233,7 +233,7 @@ func parseUint16(val string, errorList *errorList) reflect.Value {
 	return reflect.ValueOf(uint16(i))
 }
 
-func parseUint32(val string, errorList *errorList) reflect.Value {
+func parseUint32(val string, errorList *ErrorList) reflect.Value {
 	if val == "" {
 		val = "0"
 	}
@@ -244,7 +244,7 @@ func parseUint32(val string, errorList *errorList) reflect.Value {
 	return reflect.ValueOf(uint32(i))
 }
 
-func parseUint64(val string, errorList *errorList) reflect.Value {
+func parseUint64(val string, errorList *ErrorList) reflect.Value {
 	if val == "" {
 		val = "0"
 	}
@@ -255,7 +255,7 @@ func parseUint64(val string, errorList *errorList) reflect.Value {
 	return reflect.ValueOf(i)
 }
 
-func parseFloat32(val string, errorList *errorList) reflect.Value {
+func parseFloat32(val string, errorList *ErrorList) reflect.Value {
 	if val == "" {
 		val = "0"
 	}
@@ -266,7 +266,7 @@ func parseFloat32(val string, errorList *errorList) reflect.Value {
 	return reflect.ValueOf(float32(i))
 }
 
-func parseFloat64(val string, errorList *errorList) reflect.Value {
+func parseFloat64(val string, errorList *ErrorList) reflect.Value {
 	if val == "" {
 		val = "0"
 	}
@@ -277,7 +277,7 @@ func parseFloat64(val string, errorList *errorList) reflect.Value {
 	return reflect.ValueOf(i)
 }
 
-func parseBool(val string, _ *errorList) reflect.Value {
+func parseBool(val string, _ *ErrorList) reflect.Value {
 	switch strings.ToLower(val) {
 	case "false", "0", "f", "":
 		return reflect.ValueOf(false)
@@ -286,11 +286,11 @@ func parseBool(val string, _ *errorList) reflect.Value {
 	}
 }
 
-func parseString(val string, _ *errorList) reflect.Value {
+func parseString(val string, _ *ErrorList) reflect.Value {
 	return reflect.ValueOf(val)
 }
 
-func switchFunc(value reflect.Value, env envMap, valueString string, depth int, errorList *errorList) error {
+func switchFunc(value reflect.Value, env envMap, valueString string, depth int, errorList *ErrorList) error {
 	switch value.Kind() {
 	case reflect.Int:
 		value.Set(parseInt(valueString, errorList))
