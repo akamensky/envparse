@@ -65,7 +65,7 @@ func TestParse(t *testing.T) {
 	c := &conf{}
 	err := Parse(c, testData)
 	if err != nil {
-		t.Error(err.(*ErrorList).FullError())
+		t.Error(err.(*errorList).FullError())
 	}
 	fmt.Println(c)
 }

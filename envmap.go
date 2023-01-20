@@ -10,7 +10,7 @@ import (
 
 type envMap map[string]string
 
-func newEnvMap(envList []string) envMap {
+func newEnvMap(prefix string, envList []string) envMap {
 	env := make(map[string]string)
 	{
 		for _, envVar := range envList {
@@ -19,7 +19,7 @@ func newEnvMap(envList []string) envMap {
 				// Skip invalid envVar
 				continue
 			}
-			if strings.HasPrefix(envVarParts[0], DefaultPrefix) {
+			if strings.HasPrefix(envVarParts[0], prefix) {
 				env[envVarParts[0]] = envVarParts[1]
 			}
 		}

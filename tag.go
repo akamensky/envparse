@@ -12,6 +12,11 @@ type tagType struct {
 	defaultValue string
 }
 
+var (
+	tagErrNameField          = errors.New("field tag must provide a name for field")
+	tagErrIncompatibleFields = errors.New("field tag cannot be required and have default value at the same time")
+)
+
 func parseTag(t string) (*tagType, error) {
 	name := ""
 	required := false
@@ -29,10 +34,10 @@ func parseTag(t string) (*tagType, error) {
 	}
 
 	if name == "" {
-		return nil, errors.New("field tag must provide a name for field")
+		return nil, tagErrNameField
 	}
 	if required && defaultValue != "" {
-		return nil, errors.New("field tag cannot be required and have default value at the same time")
+		return nil, tagErrIncompatibleFields
 	}
 
 	result := &tagType{
