@@ -47,7 +47,7 @@ func parseStruct(structType reflect.Type, env envMap, depth int, errorList *Erro
 		fieldType := structType.Field(i)
 		if tagString, ok := fieldType.Tag.Lookup("env"); ok {
 			if !fieldType.IsExported() {
-				errorList.Append(fmt.Errorf("field '%s' is not exported, but containts 'env' tag", fieldType.Name))
+				errorList.Append(fmt.Errorf("field '%s' is not exported, but contains 'env' tag", fieldType.Name))
 				continue
 			}
 
