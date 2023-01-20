@@ -1,6 +1,6 @@
 # Opinionated environment variable parser for Golang
 
-[![](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86)](https://github.com/sponsors/akamensky) [![Go Reference](https://pkg.go.dev/badge/github.com/akamensky/envparse.svg)](https://pkg.go.dev/github.com/akamensky/envparse) [![Go Report Card](https://goreportcard.com/badge/github.com/akamensky/envparse)](https://goreportcard.com/report/github.com/akamensky/envparse) [![Coverage Status](https://coveralls.io/repos/github/akamensky/envparse/badge.svg?branch=master)](https://coveralls.io/github/akamensky/envparse?branch=master) [![Build Status](https://travis-ci.org/akamensky/envparse.svg?branch=master)](https://travis-ci.org/akamensky/envparse)
+[![](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86)](https://github.com/sponsors/akamensky) [![Go Reference](https://pkg.go.dev/badge/github.com/akamensky/envparse.svg)](https://pkg.go.dev/github.com/akamensky/envparse) [![Go Report Card](https://goreportcard.com/badge/github.com/akamensky/envparse)](https://goreportcard.com/report/github.com/akamensky/envparse) [![Coverage Status](https://coveralls.io/repos/github/akamensky/envparse/badge.svg?branch=main)](https://coveralls.io/github/akamensky/envparse?branch=main) [![Build Status](https://travis-ci.org/akamensky/envparse.svg?branch=main)](https://travis-ci.org/akamensky/envparse)
 
 The goal of this project is to make it easy to parse environment variables into complex configuration structures.
 
