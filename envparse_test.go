@@ -1,6 +1,7 @@
 package envparse
 
 import (
+	"os"
 	"reflect"
 	"testing"
 )
@@ -377,5 +378,27 @@ func TestParse_8(t *testing.T) {
 	}
 	if !reflect.DeepEqual(e2, c2) {
 		t.Errorf("expected '%v', but got '%v'", e2, c2)
+	}
+}
+
+func TestParse_9(t *testing.T) {
+	_ = os.Setenv("APP_TEST", "1")
+	_ = os.Setenv("APP_TEST", "1")
+	type testType struct {
+		I int `env:"name=TEST,required"`
+	}
+	c := &testType{}
+	origUnsetEnv := unsetEnv
+	unsetEnv = true
+	err := Parse(c, os.Environ())
+	unsetEnv = origUnsetEnv
+	if err != nil {
+		t.Errorf("expected err == nil, but got '%v'", FullError(err))
+	}
+	if c.I != 1 {
+		t.Errorf("expected c.I == 1, but got c.I == %d", c.I)
+	}
+	if os.Getenv("APP_TEST") != "" {
+		t.Errorf("expected APP_TEST == '', but got APP_TEST == '%s'", os.Getenv("APP_TEST"))
 	}
 }
