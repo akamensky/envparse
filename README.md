@@ -6,6 +6,7 @@ The goal of this project is to make it easy to parse environment variables into 
 
 Highlights:
 * Best effort parsing -- even if errors happened, the correctly defined/provided values will be parsed
+* No (zero, none) external dependencies
 * Support for most types (except `complex`) and pointers
 * Support for list and embedded structs (or lists of structs)
 * Custom prefix (default `APP`)
