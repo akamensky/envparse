@@ -2,6 +2,7 @@ package envparse
 
 import (
 	"fmt"
+	"os"
 	"reflect"
 	"strconv"
 	"strings"
@@ -10,6 +11,7 @@ import (
 var (
 	defaultPrefix   = "APP"
 	defaultMaxDepth = 100
+	unsetEnv        = false
 )
 
 // Parse scans through environment variables using mapping provided in interface
@@ -26,6 +28,15 @@ func Parse(ptr interface{}, envs []string) error {
 
 	errorList := newErrorList()
 	structValue.Set(parseStruct(structValue.Type(), env.GetPrefix(defaultPrefix), 0, errorList))
+
+	if unsetEnv {
+		for k := range env {
+			if strings.HasPrefix(k, defaultPrefix) {
+				_ = os.Unsetenv(k)
+			}
+		}
+	}
+
 	if !errorList.IsEmpty() {
 		return errorList
 	}

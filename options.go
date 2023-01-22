@@ -16,3 +16,12 @@ func SetPrefix(s string) {
 func SetMaxDepth(i int) {
 	defaultMaxDepth = i
 }
+
+// SetUnsetEnv sets a flag that if `true` will ensure that all environment variables using defined prefix
+// will not be readable by the process or by the children of the process.
+//
+// NOTE: the original environment variable is still available to be read from `/proc/<pid>/environ` or `ps eww <pid>`
+// as there are no system mechanisms available to overwrite those.
+func SetUnsetEnv(unset bool) {
+	unsetEnv = unset
+}

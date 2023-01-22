@@ -39,3 +39,14 @@ func TestSetMaxDepth(t *testing.T) {
 
 	defaultMaxDepth = originalMaxDepth
 }
+
+func TestSetUnsetEnv(t *testing.T) {
+	originalUnsetEnv := unsetEnv
+
+	SetUnsetEnv(true)
+	if !unsetEnv {
+		t.Errorf("expected unsetEnv == true, but got unsetEnv == false")
+	}
+
+	unsetEnv = originalUnsetEnv
+}
