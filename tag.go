@@ -13,11 +13,10 @@ type tagType struct {
 }
 
 var (
-	tagErrNameField          = errors.New("field tag must provide a name for field")
 	tagErrIncompatibleFields = errors.New("field tag cannot be required and have default value at the same time")
 )
 
-func parseTag(t string) (*tagType, error) {
+func parseTag(t string, fieldName string) (*tagType, error) {
 	name := ""
 	required := false
 	defaultValue := ""
@@ -34,7 +33,7 @@ func parseTag(t string) (*tagType, error) {
 	}
 
 	if name == "" {
-		return nil, tagErrNameField
+		name = strings.ToUpper(regexp.MustCompile(`[^A-Za-z0-9]`).ReplaceAllString(fieldName, ""))
 	}
 	if required && defaultValue != "" {
 		return nil, tagErrIncompatibleFields

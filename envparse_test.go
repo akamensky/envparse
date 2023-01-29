@@ -402,3 +402,37 @@ func TestParse_9(t *testing.T) {
 		t.Errorf("expected APP_TEST == '', but got APP_TEST == '%s'", os.Getenv("APP_TEST"))
 	}
 }
+
+func TestRequiredSliceOfStrings(t *testing.T) {
+	env := []string{
+		"APP_STRINGS_0=1",
+	}
+	type conf struct {
+		Strings []string `env:"name=strings,required"`
+	}
+	c := &conf{}
+	err := Parse(c, env)
+	if err != nil {
+		t.Errorf("unexpected error: %s", err)
+	}
+	if len(c.Strings) != 1 || c.Strings[0] != "1" {
+		t.Errorf("expected c.Strings[0] == '1', but got: %v", c.Strings)
+	}
+}
+
+func TestRequiredSliceOfInts(t *testing.T) {
+	env := []string{
+		"APP_INTS_0=1",
+	}
+	type conf struct {
+		Ints []int `env:"required"`
+	}
+	c := &conf{}
+	err := Parse(c, env)
+	if err != nil {
+		t.Errorf("unexpected error: %s", err)
+	}
+	if len(c.Ints) != 1 || c.Ints[0] != 1 {
+		t.Errorf("expected c.Ints[0] == 1, but got: %v", c.Ints)
+	}
+}
