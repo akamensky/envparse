@@ -62,7 +62,7 @@ func parseStruct(structType reflect.Type, env envMap, depth int, errorList *Erro
 				continue
 			}
 
-			tag, err := parseTag(tagString)
+			tag, err := parseTag(tagString, fieldType.Name)
 			if err != nil {
 				errorList.Append(err)
 				continue
@@ -77,7 +77,7 @@ func parseStruct(structType reflect.Type, env envMap, depth int, errorList *Erro
 			}
 
 			if tag.required {
-				if fieldValue.Type().Kind() == reflect.Struct {
+				if fieldValue.Type().Kind() == reflect.Struct || fieldValue.Type().Kind() == reflect.Slice {
 					if !env.PrefixExists(tag.name) {
 						// if field marked as required, but relevant environment variable is not provided,
 						// that is parsing error and can skip further processing of this field.
@@ -144,7 +144,12 @@ func parseSlice(sliceType reflect.Type, env envMap, depth int, errorList *ErrorL
 			assignableItem = item
 		}
 
-		err := switchFunc(assignableItem, env.GetPrefix(slicePrefix), slicePrefix, depth, errorList)
+		valueString := ""
+		if env.Exists(slicePrefix) {
+			valueString = env.Get(slicePrefix)
+		}
+
+		err := switchFunc(assignableItem, env.GetPrefix(slicePrefix), valueString, depth, errorList)
 		if err != nil {
 			errorList.Append(fmt.Errorf("error parsing slice: %w", err))
 			break
