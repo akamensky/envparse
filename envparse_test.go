@@ -436,3 +436,25 @@ func TestRequiredSliceOfInts(t *testing.T) {
 		t.Errorf("expected c.Ints[0] == 1, but got: %v", c.Ints)
 	}
 }
+
+func TestTagWithUnderscores(t *testing.T) {
+	env := []string{
+		"APP_SOME_NAME=1",
+		"APP_SOME_OTHER_NAME=2",
+	}
+	type conf struct {
+		S  string `env:"name=some_name"`
+		SO string `env:"name=SOME_other_NAME"`
+	}
+	c := &conf{}
+	err := Parse(c, env)
+	if err != nil {
+		t.Errorf("unexpected error: %s", err)
+	}
+	if c.S != "1" {
+		t.Errorf("expected c.S == '1', but got: %s", c.S)
+	}
+	if c.SO != "2" {
+		t.Errorf("expected c.SO == '2', but got: %s", c.SO)
+	}
+}

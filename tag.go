@@ -28,7 +28,7 @@ func parseTag(t string, fieldName string) (*tagType, error) {
 		} else if strings.HasPrefix(tagPart, "default=") {
 			defaultValue = strings.TrimPrefix(tagPart, "default=")
 		} else if strings.HasPrefix(tagPart, "name=") {
-			name = strings.ToUpper(regexp.MustCompile(`[^A-Za-z0-9]`).ReplaceAllString(strings.TrimPrefix(tagPart, "name="), ""))
+			name = strings.Trim(strings.ToUpper(regexp.MustCompile(`[^A-Za-z0-9_]`).ReplaceAllString(strings.TrimPrefix(tagPart, "name="), "")), "_")
 		}
 	}
 
